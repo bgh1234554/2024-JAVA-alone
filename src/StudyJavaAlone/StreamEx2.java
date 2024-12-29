@@ -36,10 +36,20 @@ class Book implements Serializable{
 public class StreamEx2 {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         //보조 스트림 - 일반 스트림에 연결되는 플러그인 같은 것. 다양한 기능을 제공해준다.
-        InputStream is = System.in; //기본 스트림
+        //Decorator Pattern - 객체의 추가적인 요건을 동적으로 첨가하는 방식.
+        //서브 클래스를 만드는 것을 통해 기능을 유연하게 할 수 있음.
+        InputStream is = System.in; //기본 스트림 //키보드로 입력 받음.
         InputStreamReader isr = new InputStreamReader(is);
         BufferedReader br = new BufferedReader(isr); //이런 식으로 연결 가능.
-        
+        String ln = null;
+        try{
+            ln = br.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(ln);
+        //-> 자세한건 ConsoleExam.java 참조.
+
         //1. 문자 변환 보조 스트림
         //바이트로 된 내용을 텍스트로 바꿔준다.
         //OutputStreamWriter - OutputStream에서 Writer로 변환시켜줌.
@@ -86,9 +96,9 @@ public class StreamEx2 {
         bw1.close();
         System.out.println(end-start);
         //BufferedReader 클래스의 메서드인 ReadLine 메서드로 한줄씩 읽을 수 있다.
-        //ReadLine 메서드는 String을 반환한다.
-        FileReader readline = new FileReader("copytest2.txt");
-        BufferedReader br2 = new BufferedReader(readline);
+        //ReadLine 메서드는 String을 반환한다. 없으면 null을 반환한다.
+        FileReader fr = new FileReader("copytest2.txt");
+        BufferedReader br2 = new BufferedReader(fr);
         while(true){
             String line = br2.readLine();
             if(line==null) break;
@@ -112,6 +122,16 @@ public class StreamEx2 {
         int age = dis.readInt();
         double grade = dis.readDouble();
         System.out.println(name+"-"+age+"-"+grade);
+
+        //try-with-resources - close 안해도 알아서 닫음.
+        try(DataOutputStream out = new DataOutputStream(new FileOutputStream("data.txt"));){
+            out.writeInt(1000); out.writeUTF("try-with-resources test"); out.writeDouble(3.145192);
+        }
+        try(DataInputStream in = new DataInputStream(new FileInputStream("data.txt"))){
+            System.out.println(in.readInt());
+            System.out.println(in.readUTF());
+            System.out.println(in.readDouble());
+        }
 
         //4. 프린트 보조 스트림 - PrintStream, PrintWriter
         //print(), println() 메서드를 가지고 있는 게 이 객체임. System.out도 여기 소속임.
