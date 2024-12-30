@@ -80,7 +80,8 @@ public class StreamEx2 {
         //BufferedInputStream, BufferedReader - 파일에서 읽은 내용을 Buffer에 저장 후 출력.
         //예제 - BufferedStream을 이용한 txt파일 복사하기.
         FileReader fis1 = new FileReader("copytest.txt");
-        FileWriter fos1 = new FileWriter("copytest2.txt");
+        FileWriter fos1 = new FileWriter("copytest2.txt",false);
+        //true가 되어있으면 기존 내용에 붙여써진다.
         BufferedReader br1 = new BufferedReader(fis1);
         BufferedWriter bw1 = new BufferedWriter(fos1);
         long start = System.nanoTime();
