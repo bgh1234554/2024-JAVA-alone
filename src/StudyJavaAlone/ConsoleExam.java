@@ -9,6 +9,8 @@ public class ConsoleExam {
         InputStream is = System.in;
         Reader reader = new InputStreamReader(is);
         BufferedReader br = new BufferedReader(reader);
+        //코딩테스트 시에는 BufferedReader을 Scanner보다 많이 쓴다.
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         while(true){
             System.out.print("Type: ");
             String inputstr = br.readLine();
